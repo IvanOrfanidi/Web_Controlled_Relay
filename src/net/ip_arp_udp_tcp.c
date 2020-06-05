@@ -267,7 +267,6 @@ void Make_tcphead(uint8_t* buf,
 		i++;
 	}
 	// set source port  (http):
-
 	buf[TCP_SRC_PORT_H_P] = wwwport >> 8;
 	buf[TCP_SRC_PORT_L_P] = (uint8_t)wwwport;
 

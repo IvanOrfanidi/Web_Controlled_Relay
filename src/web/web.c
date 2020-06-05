@@ -13,9 +13,14 @@
 #include <enc28j60.h>
 #include <ip_arp_udp_tcp.h>
 #include "web.h"
+#include "config.h"
 
 static uint8_t g_webBuffer[BUFFER_SIZE + 1];
-static _Bool g_status = TRUE;
+_Bool g_status = FALSE;
+
+char g_strIP[LENGTH_OF_MAC_ADDRESS];
+char g_strPort[LENGTH_OF_TCP_PORT + 1];
+uint16_t g_port;
 
 uint16_t PrintWebpage(uint8_t* buf)
 {
@@ -29,13 +34,17 @@ uint16_t PrintWebpage(uint8_t* buf)
 	if(g_status) {
 		TURN_ON_RELAY;
 		plen = Fill_tcp_data(buf, plen, http_start);
-		plen = Fill_tcp_data(buf, plen, SRT_IP_ADDR);
+		plen = Fill_tcp_data(buf, plen, g_strIP);
+		plen = Fill_tcp_data(buf, plen, ":");
+		plen = Fill_tcp_data(buf, plen, g_strPort);
 		plen = Fill_tcp_data(buf, plen, "/REL_1\">TURN OFF THE RELAY</a><hr>");
 
 	} else {
 		TURN_OFF_RELAY;
 		plen = Fill_tcp_data(buf, plen, http_start);
-		plen = Fill_tcp_data(buf, plen, SRT_IP_ADDR);
+		plen = Fill_tcp_data(buf, plen, g_strIP);
+		plen = Fill_tcp_data(buf, plen, ":");
+		plen = Fill_tcp_data(buf, plen, g_strPort);
 		plen = Fill_tcp_data(buf, plen, "/REL_0\">TURN ON THE RELAY</a><hr>");
 	}
 
@@ -72,8 +81,8 @@ void LanTask()
 
 		// tcp port www start, compare only the lower byte
 		if((g_webBuffer[IP_PROTO_P] == IP_PROTO_TCP_V) &&
-		   (g_webBuffer[TCP_DST_PORT_H_P] == 0) &&
-		   (g_webBuffer[TCP_DST_PORT_L_P] == TCP_PORT)) {
+		   (g_webBuffer[TCP_DST_PORT_H_P] == g_port >> 8) &&
+		   (g_webBuffer[TCP_DST_PORT_L_P] == (uint8_t)g_port)) {
 			if(g_webBuffer[TCP_FLAGS_P] & TCP_FLAGS_SYN_V) {
 				// make_tcp_synack_from_syn does already send the syn,ack
 				Make_tcp_synack_from_syn(g_webBuffer);

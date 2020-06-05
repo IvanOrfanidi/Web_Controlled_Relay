@@ -21,15 +21,24 @@ set(DF_CPU "14745600UL")
 file(GLOB_RECURSE SOURCES 
   src/*.c
   src/*.h
+  src/config/*.c
+  src/config/*.h
   src/net/*.c
   src/net/*.h
   src/web/*.c
   src/web/*.h
+  src/usart/*.c
+  src/usart/*.h
+  src/at_commands/*.c
+  src/at_commands/*.h
 )
 
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/src)
+include_directories(${CMAKE_CURRENT_SOURCE_DIR}/src/config)
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/src/net)
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/src/web)
+include_directories(${CMAKE_CURRENT_SOURCE_DIR}/src/usart)
+include_directories(${CMAKE_CURRENT_SOURCE_DIR}/src/at_commands)
 
 # Set build type
 if(NOT CMAKE_BUILD_TYPE)

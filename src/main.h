@@ -1,30 +1,45 @@
 #ifndef __MAIN_H
 #define __MAIN_H
 
+#ifndef FALSE
+#define FALSE 0
+#endif
+#ifndef TRUE
+#define TRUE !FALSE
+#endif
+
 /* HW Config */
 #define RELAY (1 << PB0)
 #define PORT_OUT PORTB
-
 #define TURN_ON_RELAY PORT_OUT &= ~RELAY
 #define TURN_OFF_RELAY PORT_OUT |= RELAY
 
 #define BUZ (1 << PD6)
 #define PORT_BUZ PORTD
+#define ENABLE_BUZ PORT_BUZ |= BUZ
+#define DISABLE_BUZ PORT_BUZ &= ~BUZ
 
 #define CS_SPI_ENC28J60 (1 << PC4)
 
-/* NET Config */
-static const uint8_t MAC_ADDR[6] = {0x00, 0x21, 0x68, 0x33, 0xD6, 0x30};
-static const uint8_t IP_ADDR[4] = {192, 168, 109, 14};
-static const char SRT_IP_ADDR[] = "192.168.109.14";
-#define TCP_PORT 80U // listen port for tcp/www (max range 1-254)
+#define JUMPER (1 << PD5)
+#define PIN_JUMPER PIND
 
 inline void enable_interrupt()
 {
 	sei();
 }
 
-void InitWatchdog();
+inline void disable_interrupt()
+{
+	cli();
+}
+
+inline _Bool GetStateJumper()
+{
+	return !(PIN_JUMPER & JUMPER);
+}
+
+void InitWatchdog(uint8_t timeout);
 void InitGpio();
 void InitInterrupt();
 
