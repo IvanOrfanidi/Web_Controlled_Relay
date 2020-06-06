@@ -24,6 +24,8 @@
 #define JUMPER (1 << PD5)
 #define PIN_JUMPER PIND
 
+#define TIMEOUT_IS_ENABLED_BUZZER 0xFFFF;
+
 inline void enable_interrupt()
 {
 	sei();

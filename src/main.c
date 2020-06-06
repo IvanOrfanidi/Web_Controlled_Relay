@@ -25,10 +25,6 @@ int main()
 {
 	// HW init
 	InitGpio();
-	if(GetStateJumper()) {
-		TURN_ON_RELAY;
-		g_status = TRUE;
-	}
 
 	disable_interrupt();
 	InitWatchdog(WDTO_4S);
@@ -44,6 +40,7 @@ int main()
 	GetMAC(mac);
 	g_port = GetPort();
 	GetStrPort(g_strPort);
+	g_buzzer = GetStatusBuzzer();
 	wdt_reset();
 
 	// Initialize enc28j60
@@ -64,6 +61,14 @@ int main()
 	for(;;) {
 		wdt_reset();
 
+		if(0 != g_timeout_is_enabled_buzzer) {
+			ENABLE_BUZ;
+			--g_timeout_is_enabled_buzzer;
+			if(0 == g_timeout_is_enabled_buzzer) {
+				DISABLE_BUZ;
+			}
+		}
+
 		if(usart0_rx_len()) {
 			const char symbol = usart0_read();
 			if(symbol == 0x08) {
@@ -78,6 +83,14 @@ int main()
 					for(uint8_t i = 0; i < len; ++i) {
 						usart0_write(g_cmdBuff[i]);
 					}
+
+					// If is reset command
+					if(g_reset) {
+						InitWatchdog(WDTO_1S);
+						for(;;) {
+							_NOP();
+						}
+					}
 				}
 				index = 0;
 			} else {
@@ -85,14 +98,6 @@ int main()
 				if(index < sizeof(g_cmdBuff)) {
 					++index;
 				}
-			}
-		}
-
-		// If is reset command
-		if(g_reset) {
-			InitWatchdog(WDTO_1S);
-			for(;;) {
-				_NOP();
 			}
 		}
 	}
@@ -112,7 +117,13 @@ void InitGpio()
 	PORT_BUZ &= ~BUZ;
 
 	DDRB = RELAY;
-	PORT_OUT = 0xFF;
+	if(GetStateJumper()) {
+		PORT_OUT = 0xFF & ~RELAY;
+		g_status = TRUE;
+	} else {
+		PORT_OUT = 0xFF;
+		g_status = FALSE;
+	}
 
 	DDRC = CS_SPI_ENC28J60;
 	PORTC = CS_SPI_ENC28J60;

@@ -21,6 +21,8 @@ _Bool g_status = FALSE;
 char g_strIP[LENGTH_OF_MAC_ADDRESS];
 char g_strPort[LENGTH_OF_TCP_PORT + 1];
 uint16_t g_port;
+_Bool g_buzzer = FALSE;
+uint16_t g_timeout_is_enabled_buzzer = 0;
 
 uint16_t PrintWebpage(uint8_t* buf)
 {
@@ -33,6 +35,9 @@ uint16_t PrintWebpage(uint8_t* buf)
 
 	if(g_status) {
 		TURN_ON_RELAY;
+		if(g_buzzer) {
+			g_timeout_is_enabled_buzzer = TIMEOUT_IS_ENABLED_BUZZER;
+		}
 		plen = Fill_tcp_data(buf, plen, http_start);
 		plen = Fill_tcp_data(buf, plen, g_strIP);
 		plen = Fill_tcp_data(buf, plen, ":");
@@ -41,6 +46,9 @@ uint16_t PrintWebpage(uint8_t* buf)
 
 	} else {
 		TURN_OFF_RELAY;
+		if(g_buzzer) {
+			g_timeout_is_enabled_buzzer = TIMEOUT_IS_ENABLED_BUZZER;
+		}
 		plen = Fill_tcp_data(buf, plen, http_start);
 		plen = Fill_tcp_data(buf, plen, g_strIP);
 		plen = Fill_tcp_data(buf, plen, ":");

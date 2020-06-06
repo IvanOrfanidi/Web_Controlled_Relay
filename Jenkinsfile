@@ -1,5 +1,5 @@
 // Имя выходного файла
-def EXECUTABLE_FILE_NAME = "blinking_led"
+def EXECUTABLE_FILE_NAME = "web_controlled_relay"
 
 pipeline {
     agent any
@@ -14,24 +14,6 @@ pipeline {
         stage('build') {
             steps {
                 sh 'bash compile.sh'
-            }
-        }
-
-        stage('cppcheck') {
-            steps {
-                sh 'cppcheck --enable=all --xml --xml-version=2 -i ext  src 2> build/cppcheck.xml'
-                sh 'cppcheck-htmlreport --source-encoding="iso8859-1" --title="project" --source-dir=. --report-dir=build --file=build/cppcheck.xml'
-                publishHTML(
-                    target: [
-                      allowMissing: true,
-                      alwaysLinkToLastBuild: false,
-                      keepAll: false,
-                      reportDir: 'build',
-                      reportFiles: 'index.html',
-                      reportName: 'CppCheck Report',
-                      reportTitles: ''
-                    ]
-                )
             }
         }
 

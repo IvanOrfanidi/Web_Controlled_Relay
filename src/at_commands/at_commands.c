@@ -11,6 +11,8 @@ static const char at_getmac[] = "AT+GETMAC";    //< Get current MAC
 static const char at_setmac[] = "AT+SETMAC=";   //< Set current MAC
 static const char at_getport[] = "AT+GETPORT";  //< Get current MAC
 static const char at_setport[] = "AT+SETPORT="; //< Set current MAC
+static const char at_getbuz[] = "AT+GETBUZ";    //< Get state buzzer
+static const char at_setbuz[] = "AT+SETBUZ=";   //< Set state buzzer
 
 static const char ok[] = "OK\r\n";       //< Out OK
 static const char error[] = "ERROR\r\n"; //< Out ERROR
@@ -18,6 +20,7 @@ static const char error[] = "ERROR\r\n"; //< Out ERROR
 #define LEN_AT_SETIP sizeof(at_setip) - 1
 #define LEN_AT_SETMAC sizeof(at_setmac) - 1
 #define LEN_AT_SETPORT sizeof(at_setport) - 1
+#define LEN_AT_SETBUZ sizeof(at_setbuz) - 1
 
 _Bool g_reset = FALSE;
 
@@ -89,7 +92,23 @@ _Bool Parse(char* in, char* out)
 		} else {
 			err = TRUE;
 		}
-	} else {
+	}
+	/* Get State Buzzer */
+	else if(!strcmp(in, at_getbuz)) {
+		const uint8_t len = GetStrStatusBuzzer(out);
+		out[len] = 0;
+		strcat(out, "\r\n");
+	} /* Set State Buzzer */
+	else if(!memcmp(out, at_setbuz, LEN_AT_SETBUZ)) {
+		if(SetStrStatusBuzzer(out + LEN_AT_SETBUZ)) {
+			out[0] = 0;
+			strcpy(out, ok);
+		} else {
+			err = TRUE;
+		}
+	}
+	/* Unknown AT command */
+	else {
 		err = TRUE;
 	}
 
