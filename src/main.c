@@ -19,6 +19,9 @@
 #include "usart/usart.h"
 #include "at_commands/at_commands.h"
 
+uint8_t g_ip[SIZE_IP_ADDRESS];
+uint8_t g_mac[SIZE_MAC_ADDRESS];
+
 char g_cmdBuff[RX_BUFFER_SIZE0];
 
 int main()
@@ -32,26 +35,23 @@ int main()
 	InitInterrupt();
 	wdt_reset();
 
+	if(!CheckConfig()) {
+		ResetConfig();
+	}
+
 	// Read config from EEPROM
-	uint8_t ip[SIZE_IP_ADDRESS];
-	GetIP(ip);
-	GetStrIP(g_strIP);
-	uint8_t mac[SIZE_MAC_ADDRESS];
-	GetMAC(mac);
-	g_port = GetPort();
-	GetStrPort(g_strPort);
-	g_buzzer = GetStatusBuzzer();
+	ReadConfig();
 	wdt_reset();
 
 	// Initialize enc28j60
-	Enc28j60Init(mac);
+	Enc28j60Init(g_mac);
 	wdt_reset();
 
 	InitPhy();
 	wdt_reset();
 
 	// Init the ethernet/ip layer
-	Init_ip_arp_udp_tcp(mac, ip, g_port);
+	Init_ip_arp_udp_tcp(g_mac, g_ip, g_port);
 	wdt_reset();
 
 	usart0_init();
@@ -85,11 +85,8 @@ int main()
 					}
 
 					// If is reset command
-					if(g_reset) {
-						InitWatchdog(WDTO_1S);
-						for(;;) {
-							_NOP();
-						}
+					if(g_reboot) {
+						Reboot();
 					}
 				}
 				index = 0;
@@ -100,6 +97,37 @@ int main()
 				}
 			}
 		}
+	}
+}
+
+void ReadConfig()
+{
+	GetIP(g_ip);
+	GetMAC(g_mac);
+	GetStrIP(g_strIP);
+	g_port = GetPort();
+	GetStrPort(g_strPort);
+	g_buzzer = GetStatusBuzzer();
+}
+
+void ResetConfig()
+{
+	ENABLE_BUZ;
+	SetStrIP(DEF_IP_ADDRESS);
+	SetStrMAC(DEF_MAC_ADDRESS);
+	SetStrPort(DEF_TCP_PORT);
+	SetStrStatusBuzzer(DEF_STATE_BUZZER);
+	SetValidConfig(TRUE);
+	_delay_ms(200);
+
+	Reboot();
+}
+
+void Reboot()
+{
+	InitWatchdog(WDTO_1S);
+	for(;;) {
+		_NOP();
 	}
 }
 

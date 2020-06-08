@@ -24,6 +24,11 @@
 #define JUMPER (1 << PD5)
 #define PIN_JUMPER PIND
 
+#define DEF_IP_ADDRESS "192.168.0.222"
+#define DEF_MAC_ADDRESS "00:21:68:3F:D6:35"
+#define DEF_TCP_PORT "80"
+#define DEF_STATE_BUZZER "0"
+
 #define TIMEOUT_IS_ENABLED_BUZZER 0xFFFF;
 
 inline void enable_interrupt()
@@ -41,8 +46,11 @@ inline _Bool GetStateJumper()
 	return !(PIN_JUMPER & JUMPER);
 }
 
+void ReadConfig();
 void InitWatchdog(uint8_t timeout);
 void InitGpio();
 void InitInterrupt();
+void ResetConfig();
+void Reboot();
 
 #endif /* __MAIN_H */

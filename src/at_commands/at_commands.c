@@ -22,7 +22,7 @@ static const char error[] = "ERROR\r\n"; //< Out ERROR
 #define LEN_AT_SETPORT sizeof(at_setport) - 1
 #define LEN_AT_SETBUZ sizeof(at_setbuz) - 1
 
-_Bool g_reset = FALSE;
+_Bool g_reboot = FALSE;
 
 void ToUpper(char* ptr)
 {
@@ -49,7 +49,7 @@ _Bool Parse(char* in, char* out)
 	else if(!strcmp(in, at_reboot)) {
 		out[0] = 0;
 		strcpy(out, ok);
-		g_reset = TRUE;
+		g_reboot = TRUE;
 	}
 	/* Get IP Address */
 	else if(!strcmp(in, at_getip)) {

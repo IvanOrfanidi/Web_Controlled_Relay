@@ -14,6 +14,6 @@
 
 _Bool Parse(char* in, char* out);
 
-extern _Bool g_reset;
+extern _Bool g_reboot;
 
 #endif /* __AT_COMMANDS_H */

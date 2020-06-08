@@ -45,6 +45,8 @@
 #define STATUS_BUZZER_IN_EEPROM_MEMORY \
 	TCP_PORT_IN_EEPROM_MEMORY + LENGTH_OF_TCP_PORT
 
+#define CONFIG_VALID_IN_EEPROM_MEMORY 511U
+
 _Bool SetStrIP(const char* ip);
 uint8_t GetStrIP(char* ip);
 _Bool SetStrMAC(const char* mac);
@@ -58,5 +60,8 @@ void GetIP(uint8_t* ip);
 void GetMAC(uint8_t* mac);
 uint16_t GetPort();
 _Bool GetStatusBuzzer();
+
+_Bool CheckConfig();
+void SetValidConfig(_Bool val);
 
 #endif /* __CONFIG_H */

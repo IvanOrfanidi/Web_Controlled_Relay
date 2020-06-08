@@ -216,3 +216,18 @@ _Bool GetStatusBuzzer()
 	GetStrStatusBuzzer(strStatusBuzzer);
 	return strStatusBuzzer[0] - 0x30;
 }
+
+_Bool CheckConfig()
+{
+	return (eeprom_read_byte((uint8_t*)(CONFIG_VALID_IN_EEPROM_MEMORY)) !=
+	        0xFF);
+}
+
+void SetValidConfig(_Bool val)
+{
+	if(val) {
+		eeprom_write_byte((uint8_t*)(CONFIG_VALID_IN_EEPROM_MEMORY), 0);
+	} else {
+		eeprom_write_byte((uint8_t*)(CONFIG_VALID_IN_EEPROM_MEMORY), 0xFF);
+	}
+}
