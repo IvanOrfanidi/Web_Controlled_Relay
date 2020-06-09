@@ -15,7 +15,7 @@ set(AVR_UPLOADTOOL_PORT usb)
 set(AVR_PROGRAMMER dragon_isp)
 
 # Set MCU speed
-set(DF_CPU "14745600UL")
+set(DF_CPU "18432000UL")
 
 # Source files
 file(GLOB_RECURSE SOURCES 
