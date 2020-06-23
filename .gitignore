@@ -6,7 +6,6 @@ build/*
 !*.cpp
 !*.h
 !*.hpp
-!*.s
 !*.ld
 !*.txt
 !*.cfg
