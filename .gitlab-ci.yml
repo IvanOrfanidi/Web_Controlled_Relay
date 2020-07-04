@@ -3,3 +3,10 @@ build:
   - git submodule init
   - git submodule update
   - ./compile.sh
+  after_script:
+  - cd /media/storage/gitlab/
+  - sudo rm -rf Web_Controlled_Relay
+  - git clone http://192.168.109.15/root/Web_Controlled_Relay.git
+  - cd Web_Controlled_Relay
+  - git submodule init
+  - git submodule update
