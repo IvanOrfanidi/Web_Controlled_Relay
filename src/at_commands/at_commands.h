@@ -1,7 +1,6 @@
 #ifndef __AT_COMMANDS_H
 #define __AT_COMMANDS_H
 
-#include <stdio.h>
 #include <stdlib.h>
 #include <ctype.h>
 

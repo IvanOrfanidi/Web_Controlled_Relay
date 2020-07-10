@@ -1,8 +1,15 @@
 # Version CMake
-cmake_minimum_required(VERSION 3.10)
+cmake_minimum_required(VERSION 3.13)
 
 # Project name
-project(web_controlled_relay)
+project(web_controlled_relay
+  VERSION 1.0.0
+)
+
+# Configure files
+configure_file(
+  project_version.h.in ${CMAKE_CURRENT_BINARY_DIR}/project_version.h
+)
 
 # Settings device
 set(AVR_MCU atmega88)
@@ -39,6 +46,11 @@ include_directories(${CMAKE_CURRENT_SOURCE_DIR}/src/net)
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/src/web)
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/src/usart)
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/src/at_commands)
+
+include_directories(${PROJECT_NAME} PRIVATE 
+  ${CMAKE_CURRENT_BINARY_DIR}
+  ${CMAKE_CURRENT_SOURCE_DIR}
+)
 
 # Set build type
 if(NOT CMAKE_BUILD_TYPE)
@@ -94,4 +106,4 @@ set(CPU_FLAGS "-DF_CPU=${DF_CPU}")
 set(COMPILER_FLAGS "-std=gnu99 -c -fpack-struct -fshort-enums -Wall -Werror -pedantic -pedantic-errors -funsigned-char -funsigned-bitfields -ffunction-sections")
 add_definitions(${CPU_FLAGS} ${COMPILER_FLAGS})
 
-add_avr_executable(${PROJECT_NAME} ${SOURCES})
+add_avr_executable(${PROJECT_NAME}_${CMAKE_PROJECT_VERSION} ${SOURCES})

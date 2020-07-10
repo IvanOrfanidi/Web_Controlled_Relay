@@ -3,8 +3,6 @@
 #include <avr/eeprom.h>
 #include <avr/pgmspace.h>
 
-#include <ctype.h>
-
 #include "config.h"
 
 _Bool SetStrIP(const char* ip)

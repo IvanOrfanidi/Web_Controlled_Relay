@@ -3,10 +3,10 @@
 #include <avr/interrupt.h>
 
 // Standard Input/Output functions
-#include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <ctype.h>
+#include <stdint.h>
 
 #include <main.h>
 #include <net.h>

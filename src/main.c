@@ -6,7 +6,6 @@
 #include <avr/cpufunc.h>
 
 // Standard Input/Output functions
-#include <stdio.h>
 #include <stdlib.h>
 #include <ctype.h>
 #include <string.h>

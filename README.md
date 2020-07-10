@@ -14,3 +14,4 @@
 * AT+SETPORT=8080\r\n
 * AT+GETBUZ\r\n
 * AT+SETBUZ=1\r\n
+* AT+GETVER\r\n

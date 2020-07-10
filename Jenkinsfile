@@ -1,5 +1,3 @@
-// Имя выходного файла
-def EXECUTABLE_FILE_NAME = "web_controlled_relay"
 
 pipeline {
     agent any
@@ -19,8 +17,8 @@ pipeline {
 
         stage('artifacts') {
             steps {
-                archiveArtifacts artifacts: "build/${EXECUTABLE_FILE_NAME}.hex", onlyIfSuccessful: true
-                archiveArtifacts artifacts: "build/${EXECUTABLE_FILE_NAME}-eeprom.hex", onlyIfSuccessful: true
+                archiveArtifacts artifacts: "build/*.hex", onlyIfSuccessful: true
+                archiveArtifacts artifacts: "build/*-eeprom.hex", onlyIfSuccessful: true
             }
         }
 
