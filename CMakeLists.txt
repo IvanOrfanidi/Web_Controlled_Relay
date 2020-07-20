@@ -3,7 +3,7 @@ cmake_minimum_required(VERSION 3.13)
 
 # Project name
 project(web_controlled_relay
-  VERSION 1.0.0
+  VERSION 1.0.1
 )
 
 # Configure files

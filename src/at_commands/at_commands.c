@@ -6,6 +6,7 @@
 
 static const char at[] = "AT";                  //< AT
 static const char at_reboot[] = "AT+REBOOT";    //< Soft reset
+static const char at_getver[] = "AT+GETVER";    //< Get project version
 static const char at_getip[] = "AT+GETIP";      //< Get current IP
 static const char at_setip[] = "AT+SETIP=";     //< Set current IP
 static const char at_getmac[] = "AT+GETMAC";    //< Get current MAC
@@ -14,7 +15,6 @@ static const char at_getport[] = "AT+GETPORT";  //< Get current MAC
 static const char at_setport[] = "AT+SETPORT="; //< Set current MAC
 static const char at_getbuz[] = "AT+GETBUZ";    //< Get state buzzer
 static const char at_setbuz[] = "AT+SETBUZ=";   //< Set state buzzer
-static const char at_getver[] = "AT+GETVER";    //< Get project version
 
 static const char ok[] = "OK\r\n";       //< Out OK
 static const char error[] = "ERROR\r\n"; //< Out ERROR
@@ -23,7 +23,6 @@ static const char error[] = "ERROR\r\n"; //< Out ERROR
 #define LEN_AT_SETMAC sizeof(at_setmac) - 1
 #define LEN_AT_SETPORT sizeof(at_setport) - 1
 #define LEN_AT_SETBUZ sizeof(at_setbuz) - 1
-#define LEN_AT_GETVET sizeof(at_getver) - 1
 
 _Bool g_reboot = FALSE;
 
@@ -44,6 +43,7 @@ _Bool Parse(char* in, char* out)
 
 	ToUpper(in);
 	_Bool err = FALSE;
+	/* AT */
 	if(!strcmp(in, at)) {
 		out[0] = 0;
 		strcpy(out, ok);
@@ -53,6 +53,12 @@ _Bool Parse(char* in, char* out)
 		out[0] = 0;
 		strcpy(out, ok);
 		g_reboot = TRUE;
+	}
+	/* Get Project Version */
+	else if(!strcmp(in, at_getver)) {
+		out[0] = 0;
+		GetStrProjectVersion(out);
+		strcat(out, "\r\n");
 	}
 	/* Get IP Address */
 	else if(!strcmp(in, at_getip)) {
@@ -109,12 +115,6 @@ _Bool Parse(char* in, char* out)
 		} else {
 			err = TRUE;
 		}
-	}
-	/* Get Project Version */
-	else if(!memcmp(out, at_getver, LEN_AT_GETVET)) {
-		const uint8_t len = GetStrProjectVersion(out);
-		out[len] = 0;
-		strcat(out, "\r\n");
 	}
 	/* Unknown AT command */
 	else {

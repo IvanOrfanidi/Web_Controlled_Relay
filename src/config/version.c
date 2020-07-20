@@ -1,8 +1,8 @@
 
 #include "version.h"
 
-uint8_t GetStrProjectVersion(char* port)
+uint8_t GetStrProjectVersion(char* version)
 {
-	strcpy(port, PROJECT_VERSION);
+	strcpy(version, PROJECT_VERSION);
 	return LENGTH_OF_PROJECT_VERSION - 1;
 }

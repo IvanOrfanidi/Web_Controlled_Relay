@@ -8,7 +8,7 @@
 #define TRUE !FALSE
 #endif
 
-#define BUFFER_SIZE 512U //< Recommended 521 for ATMega8
+#define BUFFER_SIZE 512U
 
 extern void LanTask();
 extern char g_strIP[];

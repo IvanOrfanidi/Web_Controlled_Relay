@@ -4,7 +4,7 @@
 #include <stdlib.h>
 #include <ctype.h>
 
-#define RX_BUFFER_SIZE0 50U
+#define RX_BUFFER_SIZE0 32U
 #define TX_BUFFER_SIZE0 32U
 
 #define BAUD_RATE0 9600U

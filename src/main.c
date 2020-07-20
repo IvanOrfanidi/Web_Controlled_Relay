@@ -70,11 +70,11 @@ int main()
 
 		if(usart0_rx_len()) {
 			const char symbol = usart0_read();
-			if(symbol == 0x08) {
+			if(symbol == '\b') { // Backspace
 				if(index > 0) {
 					--index;
 				}
-			} else if(symbol == 0x0D || symbol == 0x0A) {
+			} else if(symbol == '\r' || symbol == '\n') {
 				g_cmdBuff[index] = 0;
 				if(Parse(g_cmdBuff, g_cmdBuff)) {
 					usart0_clear_tx_buffer();
