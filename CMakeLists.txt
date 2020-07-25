@@ -2,13 +2,11 @@
 cmake_minimum_required(VERSION 3.13)
 
 # Project name
-project(web_controlled_relay
-  VERSION 1.0.1
-)
+project(web_controlled_relay VERSION 1.0.1)
 
 # Configure files
 configure_file(
-  project_version.h.in ${CMAKE_CURRENT_BINARY_DIR}/project_version.h
+    project_version.h.in ${CMAKE_CURRENT_BINARY_DIR}/project_version.h
 )
 
 # Settings device
@@ -26,18 +24,18 @@ set(DF_CPU "18432000UL")
 
 # Source files
 file(GLOB_RECURSE SOURCES 
-  src/*.c
-  src/*.h
-  src/config/*.c
-  src/config/*.h
-  src/net/*.c
-  src/net/*.h
-  src/web/*.c
-  src/web/*.h
-  src/usart/*.c
-  src/usart/*.h
-  src/at_commands/*.c
-  src/at_commands/*.h
+    src/*.c
+    src/*.h
+    src/config/*.c
+    src/config/*.h
+    src/net/*.c
+    src/net/*.h
+    src/web/*.c
+    src/web/*.h
+    src/usart/*.c
+    src/usart/*.h
+    src/at_commands/*.c
+    src/at_commands/*.h
 )
 
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/src)
@@ -47,14 +45,14 @@ include_directories(${CMAKE_CURRENT_SOURCE_DIR}/src/web)
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/src/usart)
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/src/at_commands)
 
-include_directories(${PROJECT_NAME} PRIVATE 
-  ${CMAKE_CURRENT_BINARY_DIR}
-  ${CMAKE_CURRENT_SOURCE_DIR}
+include_directories(${PROJECT_NAME} PRIVATE
+    ${CMAKE_CURRENT_BINARY_DIR}
+    ${CMAKE_CURRENT_SOURCE_DIR}
 )
 
 # Set build type
 if(NOT CMAKE_BUILD_TYPE)
-  set(CMAKE_BUILD_TYPE Release)
+    set(CMAKE_BUILD_TYPE Release)
 endif(NOT CMAKE_BUILD_TYPE)
 
 # Some cmake cross-compile necessities
