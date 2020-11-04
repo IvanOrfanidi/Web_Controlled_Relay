@@ -2,7 +2,10 @@
 cmake_minimum_required(VERSION 3.13)
 
 # Project name
-project(web_controlled_relay VERSION 1.0.1)
+project(web_controlled_relay
+    VERSION 1.0.2
+    LANGUAGES C ASM
+)
 
 # Configure files
 configure_file(
@@ -67,6 +70,8 @@ else(DEFINED ENV{AVR_FIND_ROOT_PATH})
       set(CMAKE_FIND_ROOT_PATH "/usr/lib/avr")
     elseif(EXISTS "/usr/local/CrossPack-AVR")
       set(CMAKE_FIND_ROOT_PATH "/usr/local/CrossPack-AVR")
+    elseif(EXISTS "C:/msys64/mingw64/bin")
+      set(CMAKE_FIND_ROOT_PATH "C:/msys64/mingw64/bin")
     else(EXISTS "/opt/local/avr")
       message(FATAL_ERROR "Please set AVR_FIND_ROOT_PATH in your environment.")
     endif(EXISTS "/opt/local/avr")

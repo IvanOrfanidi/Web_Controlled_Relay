@@ -31,26 +31,8 @@
 
 #define TIMEOUT_IS_ENABLED_BUZZER 0xFFFF;
 
-inline void enable_interrupt()
-{
-	sei();
-}
-
-inline void disable_interrupt()
-{
-	cli();
-}
-
-inline _Bool GetStateJumper()
-{
-	return !(PIN_JUMPER & JUMPER);
-}
-
-void ReadConfig();
-void InitWatchdog(uint8_t timeout);
-void InitGpio();
-void InitInterrupt();
-void ResetConfig();
-void Reboot();
+/* Tools */
+#define enable_interrupt() sei()
+#define disable_interrupt() cli()
 
 #endif /* __MAIN_H */

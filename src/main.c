@@ -18,6 +18,13 @@
 #include "usart/usart.h"
 #include "at_commands/at_commands.h"
 
+void ReadConfig();
+void InitWatchdog(uint8_t timeout);
+void InitGpio();
+void InitInterrupt();
+void ResetConfig();
+void Reboot();
+
 uint8_t g_ip[SIZE_IP_ADDRESS];
 uint8_t g_mac[SIZE_MAC_ADDRESS];
 
@@ -144,7 +151,8 @@ void InitGpio()
 	PORT_BUZ &= ~BUZ;
 
 	DDRB = RELAY;
-	if(GetStateJumper()) {
+
+	if(!(PIN_JUMPER & JUMPER)) { // Get state jumper
 		PORT_OUT = 0xFF & ~RELAY;
 		g_status = TRUE;
 	} else {
@@ -165,7 +173,7 @@ void InitInterrupt()
 	EICRA &= 0xFE; // INT 0 sense on falling edge
 
 	EICRA |= 0x02;
-	EIMSK |= (1 << INT0); // enable interrupt on INT 0
+	EIMSK |= (1 << INT0); // Enable interrupt on INT 0
 }
 
 /* Interrupt Ext. Int0 */
