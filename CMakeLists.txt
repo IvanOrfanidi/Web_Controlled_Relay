@@ -27,26 +27,26 @@ set(DF_CPU "18432000UL")
 
 # Source files
 file(GLOB_RECURSE SOURCES 
-    src/*.c
-    src/*.h
-    src/config/*.c
-    src/config/*.h
-    src/net/*.c
-    src/net/*.h
-    src/web/*.c
-    src/web/*.h
-    src/usart/*.c
-    src/usart/*.h
-    src/at_commands/*.c
-    src/at_commands/*.h
+    source/*.c
+    include/*.h
+    source/config/*.c
+    include/config/*.h
+    source/net/*.c
+    include/net/*.h
+    source/web/*.c
+    include/web/*.h
+    source/usart/*.c
+    include/usart/*.h
+    source/at_commands/*.c
+    include/at_commands/*.h
 )
 
-include_directories(${CMAKE_CURRENT_SOURCE_DIR}/src)
-include_directories(${CMAKE_CURRENT_SOURCE_DIR}/src/config)
-include_directories(${CMAKE_CURRENT_SOURCE_DIR}/src/net)
-include_directories(${CMAKE_CURRENT_SOURCE_DIR}/src/web)
-include_directories(${CMAKE_CURRENT_SOURCE_DIR}/src/usart)
-include_directories(${CMAKE_CURRENT_SOURCE_DIR}/src/at_commands)
+include_directories(${CMAKE_CURRENT_SOURCE_DIR}/include)
+include_directories(${CMAKE_CURRENT_SOURCE_DIR}/include/config)
+include_directories(${CMAKE_CURRENT_SOURCE_DIR}/include/net)
+include_directories(${CMAKE_CURRENT_SOURCE_DIR}/include/web)
+include_directories(${CMAKE_CURRENT_SOURCE_DIR}/include/usart)
+include_directories(${CMAKE_CURRENT_SOURCE_DIR}/include/at_commands)
 
 include_directories(${PROJECT_NAME} PRIVATE
     ${CMAKE_CURRENT_BINARY_DIR}
