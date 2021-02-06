@@ -34,6 +34,7 @@ int main()
 {
 	// HW init
 	InitGpio();
+	disable_analog_comparator();
 
 	disable_interrupt();
 	InitWatchdog(WDTO_4S);

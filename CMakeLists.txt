@@ -28,17 +28,11 @@ set(DF_CPU "18432000UL")
 # Source files
 file(GLOB_RECURSE SOURCES 
     source/*.c
-    include/*.h
     source/config/*.c
-    include/config/*.h
     source/net/*.c
-    include/net/*.h
     source/web/*.c
-    include/web/*.h
     source/usart/*.c
-    include/usart/*.h
     source/at_commands/*.c
-    include/at_commands/*.h
 )
 
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/include)

@@ -1,13 +1,6 @@
 #ifndef __MAIN_H
 #define __MAIN_H
 
-#ifndef FALSE
-#define FALSE 0
-#endif
-#ifndef TRUE
-#define TRUE !FALSE
-#endif
-
 /* HW Config */
 #define RELAY (1 << PB0)
 #define PORT_OUT PORTB
@@ -34,5 +27,6 @@
 /* Tools */
 #define enable_interrupt() sei()
 #define disable_interrupt() cli()
+#define disable_analog_comparator() ACSR |= _BV(ACD)
 
 #endif /* __MAIN_H */
